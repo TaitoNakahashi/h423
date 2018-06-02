@@ -1,0 +1,2132 @@
+@charset "utf-8";
+// ===================================================================
+// style.css
+// ===================================================================
+
+/* import */
+@import "settings";
+@import "reset";
+@import "mixin";
+@import "layout";
+
+// ===================================================================
+//　共通設定
+// ===================================================================
+
+*, *:after, *:before {
+	@include box;
+}
+
+
+// font-face
+@include font-face('imagine YOKOHAMA', '../fonts/imagineYOKOHAMA', null, null, otf);
+@include font-face('UtsukushiFONT', '../fonts/UtsukushiFONT', null, null, otf);
+
+
+html,body {
+	width: 100%;
+	height: 100%;
+	font-family: $base-font;
+	@include font-size(16);
+	background-color: $WHITE;
+}
+
+
+/*初期設定を無効化*/
+img {
+	max-width: 100%;
+	height: auto;
+	font-size: 0;
+	vertical-align: middle;
+}
+
+h1,h2,h3,h4,p,div {
+	// -webkit-text-stroke-width: 1px;
+	// -webkit-text-stroke-color: #000;
+	font-weight: 700;
+}
+
+// ===================================================================
+//　.page
+// ===================================================================
+.page {
+	background-image: url('../images/bg.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-color: $GREEN;
+
+	&.he-100vh {
+		height: 100vh;
+		// overflow: hidden;
+	}
+}
+
+
+// ===================================================================
+//　部品
+// ===================================================================
+/* .control_btn > フローティング操作ボタン  ------------------------------- */
+.control_btn {
+	position: fixed;
+	width: 80px;
+	height: 80px;
+	border-radius: 100%;
+	background: $LIGHT-RED;
+	transform-origin: 50%;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	z-index: 8;
+	transition: all $base-duration/2 cubic-bezier(0.4, 0, 0.2, 1);
+
+	@include mq-down(lg) {
+		width: 60px;
+		height: 60px;
+	}
+
+	/* ICON ======================================= */
+	.control_btn_icon {
+		color: $WHITE;
+		position: absolute;
+		z-index: 9;
+		cursor: pointer;
+	}
+}
+
+
+/* .embossed_btn > 浮き出しボタン ------------------------------- */
+.embossed_btn {
+	position: relative;
+	display: inline-block;
+	margin: 0.3em;
+	padding: 1.2em 5em;
+	overflow: hidden;
+	color:  $WHITE;
+	font-family: 'UtsukushiFONT';
+	@include font-size(16);
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 3px;
+	@include property-prefix(transition, .3s);
+	background-color: $DARK-GREEN;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+	border: none;
+	text-align: center;
+	cursor: pointer;
+}
+
+// .embossed_btn:hover {
+// 	box-shadow: 1px 6px 15px rgba(0,0,0,0.5);
+// }
+
+
+/* リップルエフェクト ボタンをクリックやタップした時　jsと連動 ------------------------------ */
+.ripple {
+	position: absolute;
+	background: rgba(0,0,0,.25);
+	border-radius: 100%;
+	transform: scale(0.2);
+	opacity:0;
+	pointer-events: none;
+	@include property-prefix(animation, ripple .75s ease-out);
+}
+
+@-webkit-keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity:1;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+
+
+
+/* .modal > モーダルコンテンツ ------------------------------- */
+// オーバーレイ
+.modal_bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 10;
+	visibility: hidden;
+	transition: background-color $base-duration/2 linear;
+}
+
+//モーダル画面と同時に展開
+/* .modal_bg > モーダルコンテンツの背景 ------------------------------- */
+.modal_bg {
+	visibility: hidden;
+	background-color: $BLACK;
+	transition: background-color $base-duration/2 linear;
+
+	&.open {
+		visibility: visible;
+		opacity: 0.7;
+
+	}
+}
+
+
+/* .form > フォームのデザイン ------------------------------- */
+.form {
+	width: 400px;
+	padding: 35px 50px;
+	margin: 0 15px;
+	background-color: $WHITE;
+	border-radius: 3px;
+	box-shadow: 0 10px 20px rgba($BLACK,0.19), 0 6px 6px rgba($BLACK,0.23);
+
+	/* form_group　------------------------------- */
+	&__group {
+		position: relative;
+		margin-bottom: 35px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+
+		.inline {
+			/* ITEM ======================================= */
+			&__item {
+				margin-right: 30px;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		/* INPUT ======================================= */
+		&__input {
+			display:block;
+			width: 300px;
+			padding:10px 10px 10px 5px;
+			@include font-size(16);
+			// safari対応
+			-webkit-text-fill-color: $BLACK;
+			border: none;
+			border-bottom: 1px solid $GRAY;
+			background: none;
+
+			&:focus {
+				outline: none;
+			}
+
+			&.kakusu,&.bushu {
+				width: 80px;
+			}
+
+			&:disabled {
+				color: $BLACK;
+                // safari対応
+				-webkit-text-fill-color: $BLACK !important;
+			}
+		}
+
+		/* LABEL ======================================= */
+		&__label {
+			position:absolute;
+			left:5px;
+			top:10px;
+			color: $LIGHT-GRAY;
+			@include font-size(16);
+			font-weight:normal;
+			pointer-events:none;
+			transition: 0.2s ease all;
+
+			&.bushu {
+				left: 5px;
+			}
+		}
+
+		/* active state */
+		&__input:focus ~ &__label, &__input:disabled ~ &__label {
+			top:-20px;
+			font-size:14px;
+			color: $LIGHT-GREEN;
+		}
+
+		.label_action {
+			top:-20px !important;
+			font-size:14px;
+			color: $LIGHT-GREEN;
+		}
+
+		/* BOTTOM BARS ================================= */
+		&__bar {
+			position:relative;
+			display:block;
+			width: 300px;
+
+			&:before, &:after {
+				content:'';
+				height:2px;
+				width:0;
+				bottom:1px;
+				position:absolute;
+				background: $LIGHT-GREEN;
+				transition: 0.2s ease all;
+			}
+
+			&:before {
+			  left:50%;
+			}
+
+			&:after {
+			  right:50%;
+			}
+
+			&.kakusu,&.bushu {
+				width: 80px;
+			}
+		}
+
+		/* active state */
+		&__input:focus ~ &__bar:before, &__input:focus ~ &__bar:after {
+			width:50%;
+		}
+
+		/* HIGHLIGHTER ================================== */
+		&__highlight {
+			position:absolute;
+			height:60%;
+			width:100px;
+			top:25%;
+			left:0;
+			pointer-events:none;
+			opacity:0.5;
+		}
+
+		/* active state */
+		&__input:focus ~ &__highlight {
+			animation: inputHighlighter 0.3s ease;
+		}
+
+		/* ANIMATIONS ================ */
+		@keyframes inputHighlighter {
+			from {
+ 				background:$LIGHT-GREEN;
+ 			}
+ 			to {
+ 				width:0;
+ 				background:transparent;
+ 			}
+		}
+	}
+}
+
+
+/* ローディングアニメーション ------------------------------- */
+/* ローディングの背景部分のCSS */
+
+
+// ===================================================================
+//　.header_animation 最初の画面のみ
+// ===================================================================
+.header_animation {
+	height: 100%;
+	padding: 45vh 0;
+	background: $DARK-GREEN;
+	z-index: 99;
+	animation: pageLoadOpening $base-duration/2 ease-in $base-duration*4 forwards;
+
+	&__h1 {
+		color: $WHITE;
+		@include font-size(60);
+		font-family: 'imagineYOKOHAMA';
+		text-align: center;
+		z-index: 99;
+		opacity: 0;
+		animation: pageLoadOpening_title $base-duration*4 ease forwards;
+
+		/* ANIMATIONS ================ */
+		@keyframes pageLoadOpening_title {
+			to {
+				font-size: 2.2vw;
+				opacity: 1;
+				z-index: 1;
+
+				@include mq-down(lg) {
+					@include font-size(28);
+				}
+			}
+		}
+	}
+}
+
+/* ANIMATIONS ================ */
+@keyframes pageLoadOpening {
+	to {
+		padding: 2vw 0;
+		height: auto;
+		box-shadow: 0 3px 6px rgba($BLACK,0.16), 0 3px 6px rgba($BLACK,0.23);
+		z-index: 1;
+
+		@include mq-down(lg) {
+			padding: 20px 0;
+			@include font-size(28);
+		}
+	}
+}
+
+
+// ===================================================================
+//　.header
+// ===================================================================
+.header {
+	padding: 20px 0;
+	background: $DARK-GREEN;
+
+	@include mq-down(xl){
+		padding: 20px 0;
+	}
+
+	&.animation {
+		// animation: pageLoadOpening .5s ease 3s forwards;
+	}
+
+	// サイトタイトル部分
+	.title_body {
+		text-align: center;
+
+		&.animation {
+			// animation: pageLoadOpening_title 2s ease 1s;
+		}
+
+		/* TITLE ======================================= */
+		.title {
+
+			/* H1 ======================================= */
+			&__h1 {
+				color: $WHITE;
+				@include font-size(28);
+				font-family: 'imagineYOKOHAMA';
+
+				@include mq-down(xl) {
+					@include font-size(28);
+				}
+			}
+		}
+	}
+}
+
+
+// ===================================================================
+//　page_top
+// ===================================================================
+/* .page_top > ページ上部のボタンバー ------------------------------- */
+.page_top {
+	overflow: hidden;
+	@include clearfix;
+
+	.btn_overlap {
+		padding: 10px;
+
+		.icon_btn {
+			display: block;
+			background-color: rgba($DARK-GREEN, 1);
+			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+			transition: all $base-duration/2 ease;
+
+			@include mq-up(lg) {
+				padding: 1.1vw;
+			}
+
+			@include mq-down(lg) {
+				padding: 15px;
+			}
+
+			i {
+				color: $WHITE;
+				transition: all $base-duration/2 ease;
+
+				@include mq-up(lg) {
+					font-size: 2vw;
+				}
+
+				@include mq-down(lg) {
+					@include font-size(24);
+				}
+			}
+
+			&:hover {
+				  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+				& i {
+					transform: rotate(-360deg);
+				}
+			}
+
+			&:active {
+				transform: scale(0.8, 0.8);
+				background-color: rgba($GLIGHT-GREEN, 1);
+			}
+		}
+	}
+}
+
+
+// ===================================================================
+//　.main
+// ===================================================================
+.main {
+	// max-width: 960px;
+	text-align: center;
+
+	@include mq-down(lg) {
+		max-width: 960px;
+	}
+
+	&.create_area {
+		// opacity: 0;
+		// animation: pageLoadOpening_main $base-duration/2 ease 2.4s forwards;
+	}
+
+	&.option_area, &.check_area {
+		// opacity: 0;
+		top: 50vh;
+		animation: pageLoad_main $base-duration/2 ease forwards;
+	}
+}
+
+@keyframes pageLoadOpening_main {
+	to {
+		// top: 0;
+		// opacity: 1;
+	}
+}
+@keyframes pageLoad_main {
+	to {
+		top: 0;
+		// opacity: 1;
+	}
+}
+
+
+
+// ===================================================================
+//　top　各画面のトップページ
+// ===================================================================
+.top_area {
+	top: 30vh;
+
+	@include mq-down(lg) {
+		top: 30vh;
+	}
+
+	.text_content {
+		opacity: 0;
+		animation: load_animation $base-duration ease $base-duration*4.7 forwards;
+
+		@include mq-down(lg) {
+			margin-bottom: $base_margin_bottom;
+		}
+
+		/* P ======================================= */
+		p {
+			font-size: 2.2vw;
+			color: $WHITE;
+
+			@include mq-down(lg) {
+				@include font-size(24);
+			}
+		}
+	}
+
+	.btn_bar {
+		padding: 4vw 0;
+		opacity: 0;
+		animation: load_animation $base-duration ease $base-duration*4.8 forwards;
+
+		@include mq-down(lg) {
+			padding: 50px 0;
+		}
+
+		/* EMBOSSED_BTN ======================================= */
+		.embossed_btn {
+			margin-right: 5%;
+			width: 15%;
+			padding: 1.5% 0;
+			font-size: 1.2vw;
+
+			@include mq-down(lg) {
+				margin-right: 50px;
+				width: 250px;
+				padding: 25px 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+
+
+			&:active {
+				transform: scale(0.8, 0.8);
+			}
+		}
+	}
+
+	@keyframes load_animation {
+		to {
+			opacity: 1;
+		}
+	}
+}
+
+
+
+
+
+// ===================================================================
+//　kanji_world　漢字空間画面
+// ===================================================================
+
+
+
+
+
+// ===================================================================
+//　read　漢字一覧画面
+// ===================================================================
+
+/* .control_btn > フローティング操作ボタン 検索 ------------------------------- */
+.control_btn {
+
+	&__search {
+
+		@include mq-up(lg) {
+			top: 10%;
+			right: 3%;
+		}
+
+		@include mq-down(lg) {
+			top: 10%;
+			right: 2.5%;
+		}
+
+		&:hover {
+			box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+			.control_btn_icon {
+				animation: scaleup $base-duration ease;
+
+				@keyframes scaleup {
+					50% {
+						transform: scale(1.5, 1.5);
+					}
+					100% {
+						transform: scale(1, 1);
+					}
+				}
+			}
+		}
+
+		/* ICON ======================================= */
+		// 対象：検索
+		.control_btn_icon {
+            // 対象 : 検索
+			&.fa-search {
+
+				@include mq-up(lg) {
+					top: 28%;
+					left: 30%;
+					@include font-size(32);
+				}
+
+				@include mq-down(lg) {
+					top: 25%;
+					left: 28%;
+					@include font-size(28);
+				}
+			}
+
+			// 対象：閉じる
+			&.fa-arrow-right {
+				color: $RED;
+				opacity: 0;
+				transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+				&:active {
+					transform: scale(0.6, 0.6);
+				}
+
+				@include mq-up(lg) {
+					top: 3%;
+					right: 3%;
+					font-size: 2.6vw;
+				}
+
+				@include mq-down(lg) {
+					top: 6%;
+					right: 15px;
+					@include font-size(28);
+				}
+			}
+		}
+	}
+}
+
+
+/* .search_modal > 漢字の検索フォーム ------------------------------- */
+.search_modal {
+    // 初期状態
+	position: fixed;
+	width: 80px;
+	height: 80px;
+	padding: 0;
+	margin: 0;
+	text-align: right;
+	border-radius: 100%;
+	background: none;
+	box-shadow: none;
+	transform-origin: 50%;
+	z-index: 7;
+	transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+	@include mq-up(lg) {
+		top: 12%;
+		right: 3%;
+	}
+
+	@include mq-down(lg) {
+		top: 10%;
+		right: 2.5%;
+		width: 60px;
+		height: 60px;
+	}
+
+	/* GROUP, FLAT_BTN ======================================= */
+	.form__group, &__btn {
+		opacity: 0;
+		pointer-events: none;
+		// transition: all $base-duration/2 ease-in $base-duration;
+	}
+
+	/* GROUP ======================================= */
+	.form__group {
+
+		@include mq-up(lg) {
+			margin-bottom: 5%;
+		}
+
+		&__input {
+			width: 100%;
+			font-weight: lighter;
+
+			@include mq-up(lg) {
+				font-size: 1.2vw;
+			}
+
+			@include mq-down(lg) {
+				@include font-size(20);
+			}
+		}
+
+		&__highlight {
+			width: 100%;
+		}
+
+		&__bar {
+			width: 100%;
+		}
+
+		&__label {
+
+			@include mq-up(lg) {
+				top: 25%;
+				font-size: 1.2vw;
+			}
+
+			@include mq-down(lg) {
+				top: 25%;
+				@include font-size(20);
+			}
+
+		}
+
+		/* SELECTBOX ======================================= */
+		&__select {
+			color: $WHITE;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 0;
+			outline: 0;
+			border-radius: 3px;
+			background-color: $LIGHT-GREEN;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+			transition: all $base-duration/2 ease;
+
+			@include mq-up(lg) {
+				width: 40%;
+				padding: 1.5% 3%;
+				font-size: 1.1vw;
+			}
+
+			@include mq-down(lg) {
+				width: 40%;
+				padding: 1.5% 3%;
+				@include font-size(16);
+			}
+
+			&::-ms-expand {
+				display: none;
+			}
+
+			&:hover {
+				box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+			}
+
+			.select_item {
+				color: $WHITE;
+				background-color: $GREEN;
+			}
+		}
+
+
+		/* EMBOSSED_BTN ======================================= */
+		.embossed_btn {
+
+			@include mq-up(lg) {
+				width: 18%;
+				padding: 2% 0;
+				font-size: 1.1vw;
+			}
+
+			@include mq-down(lg) {
+				width: 100px;
+				padding: 15px 0;
+			}
+		}
+	}
+
+	/* FLAT_BTN ======================================= */
+	.flat_btn {
+		display: block;
+		margin: auto;
+		color: $GREEN;
+		text-align: center;
+		border-radius: 3px;
+		cursor: pointer;
+		// transition: all $base-duration/2 ease;
+
+		@include mq-up(lg) {
+			width: 25%;
+			padding: 3% 0;
+			font-size: 1.2vw;
+		}
+
+		@include mq-down(lg) {
+			width: 120px;
+			padding: 12px 0;
+			@include font-size(18);
+		}
+
+		&:hover {
+			color: $WHITE;
+			background-color: $GREEN;
+		}
+
+		&:active {
+			transform: scale(0.8, 0.8);
+		}
+	}
+
+	/* INPUT_CHECKBOX ======================================= */
+	#search {
+		display: none;
+	}
+}
+
+
+/* #searchToggle > 検索フォームのトリガー  ------------------------------- */
+#searchToggle {
+	&:not(:checked), &:checked  {
+	    display: none;
+	}
+
+	/* CONTROL_BTN ======================================= */
+	&:checked ~ .control_btn__search {
+		background-color: $WHITE;
+		border-radius: 3px;
+		box-shadow: 0 14px 28px rgba($BLACK,0.25), 0 10px 10px rgba($BLACK,0.22);
+
+		@include mq-up(lg) {
+			top: 10%;
+			right: 8%;
+			width: 40%;
+			height: 26vw;
+		}
+
+		@include mq-down(lg) {
+			top: 10%;
+			right: 2.5%;
+			width: 50%;
+			height: 400px;
+		}
+
+		/* ICON ======================================= */
+		.control_btn_icon {
+
+			&.fa-search {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			// 対象：閉じる
+			&.fa-arrow-right {
+				opacity: 1;
+			}
+		}
+	}
+
+	/* FORM ======================================= */
+	&:checked ~ .search_modal {
+		height: auto;
+		border-radius: 0;
+		z-index: 8;
+
+		@include mq-up(lg) {
+			top: 10%;
+			right: 8%;
+			width: 40%;
+			margin-top: 4%;
+			padding: 2.2%;
+		}
+
+		@include mq-down(lg) {
+			top: 10%;
+			right: 2.5%;
+			width: 50%;
+			margin-top: 60px;
+			padding: 30px;
+		}
+
+		/* GROUP, BTN ======================================= */
+		.form__group, .search_modal__btn {
+			pointer-events: auto;
+			opacity: 1;
+			transition: all $base-duration/2 ease $base-duration/2;
+		}
+	}
+
+	/* MODAL_BG ======================================= */
+	&:checked ~ .modal_bg {
+		visibility: visible;
+		opacity: 0.7;
+		z-index: 7;
+	}
+}
+
+
+/* .read_area > メインエリア  ------------------------------- */
+.read_area {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 80vh;
+	padding: 0;
+	text-align: left;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	letter-spacing: -0.5em;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@include mq-up(lg) {
+		margin: 10vh 13% 5vh;
+	}
+
+	@include mq-down(lg) {
+		margin: 15vh auto 5vh;
+	}
+}
+
+
+/* CLOSE_BTN ======================================= */
+.popup_close_btn {
+	z-index: 13;
+	transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+	opacity: 0;
+
+	@include mq-up(lg) {
+		top: 10%;
+		right: 7%;
+	}
+	@include mq-down(lg) {
+		top: 17%;
+		right: 3%;
+	}
+
+	&:hover {
+		box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+		.control_btn_icon {
+			animation: scaleup $base-duration ease;
+
+			@keyframes scaleup {
+				50% {
+					transform: scale(1.5, 1.5);
+				}
+				100% {
+					transform: scale(1, 1);
+				}
+			}
+		}
+	}
+
+	&:active {
+		transform: scale(0.6, 0.6);
+	}
+
+	&.active {
+		opacity: 1;
+	}
+
+	.control_btn_icon {
+		z-index: 12;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		@include mq-up(lg) {
+			top: 26%;
+			left: 30%;
+			@include font-size(38);
+		}
+
+		@include mq-down(lg) {
+			top: 26%;
+			left: 30%;
+			@include font-size(30);
+		}
+	}
+}
+
+
+/* .panel > 漢字一覧のパネル ------------------------------- */
+// 漢字一覧部分
+.panel {
+	display: inline-block;
+	letter-spacing: normal;
+	vertical-align: top;
+	background-color: rgba($WHITE, 1);
+	border-radius: 3px;
+	box-shadow: 0 10px 20px rgba($BLACK,0.19), 0 6px 6px rgba($BLACK,0.23);
+	overflow: hidden;
+	cursor: pointer;
+	transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+	transform: scale(0, 0);
+	opacity: 0;
+	@include clearfix;
+
+	@include mq-up(lg) {
+		width: 23vw;
+		height: 23vw;
+		margin: 0 0.9% 1.8%;
+		padding: 1.8%;
+	}
+
+	@include mq-down(lg) {
+		width: 280px;
+		height: 280px;
+		margin: 0 10px 20px;
+		padding: 20px;
+	}
+
+	&.visible {
+		opacity: 1;
+		transform: scale(1, 1);
+
+	}
+
+	/* ANIMATIONS hover時のアニメーション定義 ======================================= */
+	&.kanji_rotate {
+
+		&:hover {
+
+			.panel__img {
+				animation: kanji_rotate $base-duration/2 ease;
+
+				@keyframes kanji_rotate {
+					30% {
+						transform: rotate(40deg);
+					}
+					70% {
+						transform: rotate(-40deg);
+					}
+					100% {
+						transform: rotate(0deg);
+					}
+				}
+			}
+		}
+	}
+
+    // ポップアップ時のスタイル
+	&.active {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+		cursor: default;
+		z-index: 10;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		@include mq-up(lg) {
+			width: 80%;
+			height: 600px;
+			padding: 2.5%;
+		}
+
+		@include mq-down(lg) {
+			width: 90%;
+			height: 500px;
+			padding: 30px;
+		}
+	}
+
+	/* PANEL_BODY ======================================= */
+	.panel_body {
+		width: 100%;
+		height: 100%;
+		-webkit-writing-mode: vertical-rl;
+		-ms-writing-mode: tb-rl;
+		writing-mode: vertical-rl;
+	}
+
+	/* IMAGE ======================================= */
+	&__img {
+		border-radius: 3px;
+		// background-color: $WHITE;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		@include mq-up(lg) {
+			margin: 13% auto 0;
+			width: 15vw;
+			height: 15vw;
+		}
+
+		@include mq-down(lg) {
+			margin: 30px auto 0;
+			width: 180px;
+			height: 180px;
+		}
+
+		&.active {
+			display: none;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	/* CANVAS ======================================= */
+	&__canvas_body {
+		display: none;
+		border-radius: 3px;
+		background-color: $WHITE;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		&.active {
+			display: block;
+
+			@include mq-up(lg) {
+				margin:auto;
+				// width: 28vw;
+				// height: 28vw;
+				width: 450px;
+				height: 450px;
+			}
+
+			@include mq-down(lg) {
+				margin: auto;
+				width: 350px;
+				height: 350px;
+			}
+		}
+
+		/* CANVAS ======================================= */
+		.kanji_canvas {
+			background: url('../images/cross-line.svg') no-repeat 0 0;
+		}
+	}
+
+	/* DEFAULT ======================================= */
+	&__default {
+		display: block;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		&.hide {
+			opacity: 0;
+		}
+
+		//　読み
+		.kanji_yomi {
+
+			@include mq-up(lg) {
+				margin-top: -6%;
+				padding: 0 6%;
+				font-size: 1.5vw;
+			}
+
+			@include mq-down(lg) {
+				margin-top: -6%;
+				padding: 0 10px;
+				@include font-size(20);
+			}
+		}
+
+		// 画数
+		.kanji_kakusu {
+
+			/* LABEL ======================================= */
+			&__label {
+
+				@include mq-up(lg) {
+					padding-bottom: 2%;
+					font-size: 1.2vw;
+				}
+
+				@include mq-down(lg){
+					padding-bottom: 10px;
+					// @include font-size(16);
+				}
+			}
+
+			/* INPUT ======================================= */
+			&__num {
+				-webkit-text-orientation: upright;
+				text-orientation: upright;
+				color: $LIGHT-RED;
+
+				@include mq-up(lg) {
+					font-size: 1vw;
+				}
+
+				@include mq-down(lg) {
+					@include font-size(16);
+				}
+			}
+		}
+	}
+
+	/* POPUP ======================================= */
+	&__popup {
+		opacity: 0;
+		transition: all $base-duration/2 cubic-bezier(0.19, 1, 0.22, 1);
+
+		&.active {
+			opacity: 1;
+
+			@include mq-up(lg) {
+				height: 30vw;
+			}
+
+			@include mq-down(lg) {
+				height: 440px;
+			}
+		}
+
+		&__content {
+			display: block;
+			//縦書き
+			// -ms-writing-mode: tb-rl;
+			// writing-mode: vertical-rl;
+
+			//テキスト部分
+			/* .yomi_text > 読み ------------------------------- */
+			.yomi_text {
+
+				@include mq-up(lg) {
+					margin-top: -6%;
+					padding-left: 8%;
+					font-size: 2.4vw;
+				}
+
+				@include mq-down(lg) {
+					margin-top: -6%;
+					padding-left: 8%;
+					@include font-size(28);
+				}
+			}
+
+			/* .bushu > 部首の部分 ------------------------------- */
+			.bushu {
+
+				@include mq-up(lg) {
+					padding-left: 8%;
+				}
+
+				@include mq-down(lg) {
+					padding-left: 8%;
+				}
+
+				/* LABEL ======================================= */
+				&__label {
+					margin-bottom: $base_margin_bottom;
+
+					@include mq-up(lg) {
+						font-size: 1.8vw;
+					}
+
+					@include mq-down(lg) {
+						@include font-size(24);
+					}
+				}
+
+				/* SPAN NAME ======================================= */
+				&__name {
+					// display: inline-block;
+					// letter-spacing: normal;
+					// vertical-align: middle;
+					margin-bottom: $base_margin_bottom/2;
+
+					@include mq-up(lg) {
+						padding-bottom: 3%;
+						font-size: 1.2vw;
+					}
+
+					@include mq-down(lg) {
+						padding-bottom: 3%;
+						@include font-size(16);
+					}
+				}
+			}
+
+			/* .imi > 意味の部分 ------------------------------- */
+			.imi {
+
+				@include mq-up(lg) {
+					padding-left: 8%;
+				}
+
+				@include mq-down(lg) {
+					padding-left: 8%;
+				}
+
+				/* LABEL ======================================= */
+				&__label {
+					display: block;
+
+					@include mq-up(lg) {
+						padding-left: 5%;
+						font-size: 1.8vw;
+					}
+
+					@include mq-down(lg) {
+						padding-left: 5%;
+						@include font-size(24);
+					}
+				}
+				/*  P ======================================= */
+				&__p {
+					// color: $GRAY;
+					text-indent: 1em;
+					line-height: 1.5;
+					letter-spacing: 0.03em;
+
+					@include mq-up(lg) {
+						font-size: 1.4vw;
+					}
+
+					@include mq-down(lg) {
+						@include font-size(16);
+					}
+				}
+			}
+
+			/* .rei > 例の部分 ------------------------------- */
+			.rei {
+
+				/* LABEL ======================================= */
+				&__label {
+					display: block;
+
+					@include mq-up(lg) {
+						padding-left: 5%;
+						font-size: 1.8vw;
+					}
+
+					@include mq-down(lg) {
+						padding-left: 5%;
+						@include font-size(24);
+					}
+				}
+				/* P ======================================= */
+				&__p {
+					// color: $GRAY;
+					text-indent: 1em;
+					line-height: 1.5;
+					letter-spacing: 0.03em;
+
+					@include mq-up(lg) {
+						font-size: 1.4vw;
+					}
+
+					@include mq-down(lg) {
+						@include font-size(16);
+					}
+				}
+			}
+		}
+	}
+
+}
+
+
+
+
+// ===================================================================
+//　#create,#option,#checkの共通設定
+// ===================================================================
+.create_area, .option_area, .check_area {
+
+	@include mq-down(lg) {
+		padding: 20px 50px;
+	}
+
+	/* .content_top > コンテンツの上部 ------------------------------- */
+	.content_top {
+
+		@include mq-down(lg) {
+			padding:0 0 20px 20px;
+		}
+
+		&__h1 {
+			color: $WHITE;
+			font-weight: lighter;
+			text-align: left;
+
+			@include mq-down(xl) {
+				@include font-size(40);
+			}
+
+			@include mq-down(lg) {
+				@include font-size(34);
+			}
+
+			i {
+				margin-right: 10px;
+			}
+		}
+	}
+}
+
+
+// ===================================================================
+//　#create　記入画面
+// ===================================================================
+/* .control_btn > フローティング操作ボタン ヒント ------------------------------- */
+.control_btn {
+
+	//　対象：お題
+	&__question {
+
+		@include mq-down(lg) {
+			top: 13%;
+			right: 2%;
+		}
+	}
+
+	/* ICON ======================================= */
+	.control_btn_icon {
+		transition: all $base-duration/2 ease;
+
+		//　対象：お題
+		&.fa-question {
+
+			@include mq-down(lg) {
+				top: 23%;
+				left: 33%;
+				@include font-size(32);
+			}
+		}
+
+		// 対象：閉じる
+		&.fa-times {
+			top: 3%;
+			right: 15px;
+			color: $RED;
+			opacity: 0;
+			@include font-size(32);
+
+			&:active {
+				transform: scale(0.6, 0.6);
+			}
+
+			@include mq-down(lg) {
+				@include font-size(32);
+			}
+		}
+	}
+}
+
+
+/* help_modal > ヒントのモーダルコンテンツ ------------------------------- */
+.help_modal {
+	// 初期状態
+	position: fixed;
+	top: 13%;
+	right: 2%;
+	width: 80px;
+	height: 80px;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	border-radius: 100%;
+	background: none;
+	box-shadow: none;
+	transform-origin: 50%;
+	z-index: 7;
+	transition: all $base-duration/2 cubic-bezier(0.4, 0, 0.2, 1);
+
+	@include mq-down(lg) {
+		width: 60px;
+		height: 60px;
+	}
+
+	/* TITLE, CONTENT ======================================= */
+	&__title, &__content {
+		opacity: 0;
+	}
+
+	/* TITLE ====================================== */
+	&__title {
+		border-bottom: 1px solid $WHITE;
+
+		/* TITLE H2 ======================================= */
+		&__h2 {
+			color: $WHITE;
+
+			@include mq-down(lg) {
+				margin: 0 0 10px;
+				@include font-size(28);
+			}
+		}
+
+	}
+
+	/* CONTENT ======================================= */
+	&__content {
+		margin: 0;
+
+		@include mq-down(lg) {
+			padding: 20px 0;
+			font-size: 18px;
+			line-height: 1.75;
+		}
+
+		&__p {
+			color: $WHITE;
+		}
+	}
+
+}
+
+
+/* #helpToggle > モーダルコンテンツのトリガー  ------------------------------- */
+#helpToggle {
+	&:not(:checked), &:checked  {
+	    display: none;
+	}
+
+	/* CONTROL_BTN ======================================= */
+	&:checked ~ .control_btn__question {
+		top: 13%;
+		right: 10%;
+		width: 80%;
+		height: 450px;
+		background-color: $DARK-GREEN;
+		border-radius: 3px;
+		box-shadow: 0 14px 28px rgba($BLACK,0.25), 0 10px 10px rgba($BLACK,0.22);
+		transition: all $base-duration/2 cubic-bezier(0.4, 0, 0.2, 1);
+
+		/* ICON ======================================= */
+		.control_btn_icon {
+
+			&.fa-question {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			// 対象：閉じる
+			&.fa-times {
+				opacity: 1;
+				// transition: $base-duration/2 ease $base-duration/2;
+			}
+		}
+	}
+
+	/* MODAL ======================================= */
+	&:checked ~ .help_modal {
+		top: 13%;
+		right: 10%;
+		width: 80%;
+		height: auto;
+		margin-top: 60px;
+		padding: 0 30px;
+		border-radius: 0;
+		z-index: 8;
+		transition: all $base-duration/2 cubic-bezier(0.4, 0, 0.2, 1);
+
+		/* GROUP, BTN ======================================= */
+		.help_modal__title, .help_modal__content {
+			opacity: 1;
+			transition: $base-duration/2 ease;
+		}
+	}
+
+	/* MODAL_BG ======================================= */
+	&:checked ~ .modal_bg {
+		visibility: visible;
+		opacity: 0.7;
+		z-index: 7;
+	}
+}
+
+
+.create_area {
+
+	/* .contnet_main > メインコンテンツのエリア ------------------------------- */
+	.content_main {
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+
+/* .odai > お題 PC,タブレット間 > 画面左側  ------------------------------- */
+.odai {
+	max-width: 400px;
+	padding: 0 15px;
+	text-align: left;
+
+	@include mq-down(lg) {
+		margin-top: -30px;
+	}
+
+	/* TITLE ======================================= */
+	&__title {
+		display: block;
+
+		@include mq-down(lg) {
+			padding-bottom: 40px;
+		}
+
+		&__h2 {
+			color: $WHITE;
+			text-align: center;
+			border-bottom: 1px solid $WHITE;
+
+			@include mq-down(lg) {
+				padding-bottom: 10px;
+				@include font-size(28);
+			}
+		}
+	}
+
+	/* P ======================================= */
+	&__p {
+		color: $WHITE;
+		text-align: center;
+
+		@include mq-down(lg) {
+			padding-bottom: 15px;
+			@include font-size(18);
+		}
+	}
+
+
+	/* IMAGES ======================================= */
+	&__images {
+
+		@include mq-down(lg) {
+			padding-bottom: 20px;
+		}
+
+		&__body {
+			align-items: center;
+			justify-content: center;
+			background-color: $WHITE;
+			box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+			transition: all $base-duration/2;
+			opacity: 0;
+			transform: scale(0, 0);
+			// animation: fadeIn $base-duration/2 ease forwards;
+
+			@include mq-down(lg) {
+				margin: 0 10px;
+				width: 100px;
+			}
+
+			&.odai_img1 {
+
+			}
+
+			&.odai_img2 {
+				transition-delay: $base-duration/4;
+			}
+
+			&.odai_img3 {
+				transition-delay: $base-duration/3;
+			}
+
+			&.show {
+				opacity: 1;
+				transform: scale(1, 1);
+			}
+
+			/* ANIMATIONS ================ */
+			@keyframes fadeIn {
+				to {
+					opacity: 1;
+					transform: scale(1, 1);
+				}
+			}
+
+
+			.bushu_img {
+				display: block;
+
+				@include mq-down(lg) {
+					width: 100px;
+					height: 100px;
+				}
+			}
+
+			.bushu_yomi {
+				display: block;
+				color: $DARK-GREEN;
+				text-align: center;
+
+				@include mq-down(lg) {
+					padding: 20px 0;
+					@include font-size(16);
+				}
+			}
+		}
+	}
+
+	/* CONTENT ======================================= */
+	&__content {
+		position: relative;
+		margin: 0;
+
+		@include mq-down(lg) {
+            // 高さを固定する
+            height: 150px;
+			padding: 20px 10px;
+		}
+
+		/* TEXT ======================================= */
+		&__text {
+			line-height: 1.75;
+			color: $WHITE;
+
+			@include mq-down(lg) {
+				@include font-size(20);
+			}
+
+			.bushu_img {
+				display: inline-block;
+				vertical-align: middle;
+				// background: url('../images/kanji1.svg') no-repeat 0 0;
+
+				@include mq-down(lg) {
+					width: 20px;
+					height: 20px;
+				}
+			}
+		}
+
+		/* HIGHLIGHTER ================================== */
+		&__highlight {
+			position:absolute;
+			height: 75%;
+			width: 100%;
+			top: 10%;
+			left:0;
+			pointer-events:none;
+			opacity: 0.5;
+
+			@include mq-down(lg) {
+			}
+
+			&.active_blue {
+				animation: textHighlighter_blue $base-duration ease;
+			}
+
+			&.active_green {
+				animation: textHighlighter_green $base-duration ease;
+			}
+
+			&.active_red {
+				animation: textHighlighter_red $base-duration ease;
+			}
+
+			/* active state */
+			@keyframes textHighlighter_blue {
+				from {
+					background:$ODAI-BTN-CL1;
+				}
+				to {
+					width:0;
+					background:transparent;
+				}
+			}
+
+			@keyframes textHighlighter_green {
+				from {
+					background:$ODAI-BTN-CL2;
+				}
+				to {
+					width:0;
+					background:transparent;
+				}
+			}
+
+			@keyframes textHighlighter_red {
+				from {
+					background:$ODAI-BTN-CL3;
+				}
+				to {
+					width:0;
+					background:transparent;
+				}
+			}
+		}
+	}
+
+	/* BARS ======================================= */
+	&__bottom_bar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+
+		/* EMBOSSED_BTN  ======================================= */
+		.embossed_btn {
+			font-weight: bold;
+			// transition: all $base-duration/2 ease;
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			&.easy {
+				background-color: $ODAI-BTN-CL1;
+			}
+
+			&.normal {
+				background-color: $ODAI-BTN-CL2;
+			}
+
+			&.hard {
+				background-color: $ODAI-BTN-CL3;
+			}
+
+			@include mq-down(lg) {
+				margin-right: 10px;
+				width: 130px;
+				padding: 15px 0;
+				@include font-size(16);
+			}
+		}
+
+		.odai__content__highlight {
+			position:absolute;
+			height:50%;
+			width: 100%;
+			top:25%;
+			left:0;
+			pointer-events:none;
+			opacity:0.5;
+
+			@include mq-down(lg) {
+			}
+		}
+	}
+
+}
+
+/* .create > 漢字を記入するコンテンツ ------------------------------- */
+.create {
+	margin-top: -50px;
+	padding: 0 15px;
+
+	/* BODY ======================================= */
+	&__canvas_body {
+		margin: 0 auto;
+		border-radius: 3px;
+		background-color: $WHITE;
+
+		@include mq-down(lg) {
+			width: 450px;
+			height: 450px;
+		}
+		/* CANVAS ======================================= */
+		.create_canvas {
+			background: url('../images/cross-line.svg') no-repeat 0 0;
+			box-shadow: 0 10px 20px rgba($BLACK,0.19), 0 6px 6px rgba($BLACK,0.23);
+			cursor: crosshair;
+		}
+	}
+}
+
+
+/* .tool > ツールメニュー ------------------------------- */
+.tool {
+
+	@include mq-down(lg) {
+		padding: 30px 0 10px;
+	}
+
+
+	/* LIST ======================================= */
+	.tool_list {
+		letter-spacing: -0.5em;
+
+		/* ITEM ======================================= */
+		&__item {
+			display: inline-block;
+			letter-spacing: normal;
+			vertical-align: middle;
+			margin-left: 10px;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+
+				@include mq-down(lg) {
+					margin-left: 30px;
+				}
+
+			}
+
+            /* ICON_BTN ======================================= */
+			.icon_btn {
+				position: relative;
+				display: block;
+				text-align: center;
+				border-radius: 50%;
+				background: $DARK-GREEN;
+				box-shadow: 0 2px 2px 0 rgba($BLACK,.12), 0 2px 2px 0 rgba($BLACK,.24);
+				transition: all $base-duration/2 ease;
+				z-index: 5;
+
+				@include mq-down(lg) {
+					width: 64px;
+					height: 64px;
+				}
+
+				&:hover {
+					// background: $GLIGHT-GREEN;
+					box-shadow: 0 4px 5px 0 rgba($BLACK,.14), 0 1px 10px 0 rgba($BLACK,.12), 0 2px 4px -1px rgba($BLACK,.2);
+				}
+
+				&:active {
+					transform: scale(0.8, 0.8);
+				}
+
+
+
+				/* ICON ======================================= */
+				&__icon {
+					color: $WHITE;
+					vertical-align: center;
+					z-index: 6;
+
+					@include mq-down(lg) {
+						@include font-size(28);
+						line-height: 2.3;
+					}
+				}
+			}
+
+			/* EMBOSSED_BTN  ======================================= */
+			.embossed_btn {
+
+				@include mq-down(lg) {
+					width: 180px;
+					padding: 14px 0;
+					@include font-size(16);
+					line-height: 1.5;
+				}
+			}
+		}
+	}
+}
+
+
+// ===================================================================
+//　#option 設定画面 + #check 確認画面
+// ===================================================================
+.option_area, .check_area {
+
+	/* .contnet_main > メインコンテンツのエリア ------------------------------- */
+	.content_main {
+		align-items: center;
+		justify-content: space-between;
+		// justify-content: center;
+	}
+}
+
+/* .kanji_check = 画像化された漢字の表示コンテンツ ------------------------------- */
+.kanji_check {
+
+	@include mq-down(lg) {
+		// margin-top: 0px;
+		padding: 0 15px;
+	}
+
+	/* TEXT ======================================= */
+	&__text {
+
+		@include mq-down(lg) {
+			padding: 20px 0;
+		}
+
+		/* P ======================================= */
+		.p_text {
+			color: $WHITE;
+			line-height: 1.5;
+
+			@include mq-down(lg) {
+
+			}
+		}
+	}
+
+	/* IMG ======================================= */
+	&__img {
+		margin: 0 auto;
+		background-color: $WHITE;
+		box-shadow: 0 10px 20px rgba($BLACK,0.19), 0 6px 6px rgba($BLACK,0.23);
+
+		@include mq-down(lg) {
+			width: 260px;
+			height: 260px;
+		}
+
+		/* IMAGE ======================================= */
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			// background-image: no-repeat 0 0;
+			// background: url('../images/kanji1.svg') no-repeat 0 0;
+		}
+	}
+}
+
+
+/* .option_form, .check_form > 漢字の入力設定 ------------------------------- */
+.option_form, .check_form {
+	max-width: 400px;
+
+	@include mq-down(lg) {
+		padding: 50px;
+		margin: -50px 15px 0;
+	}
+}
+
+
+
+/* form_btn_bar = フォームボタン ------------------------------- */
+.form_btn_bar {
+
+	@include mq-down(lg) {
+		padding-top: 30px;
+	}
+
+	/* EMBOSSED_BTN  ======================================= */
+	.embossed_btn {
+
+		@include mq-down(lg) {
+			// margin-right: 100px;
+			width: 200px;
+			padding: 18px 0;
+			@include font-size(16);
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	/* SUBMIT_BTN  ======================================= */
+	&__submit {
+		display: none;
+	}
+}
+
+
+
+// ===================================================================
+//　#comp 完了画面
+// ===================================================================
+.comp_area {
+	height: auto;
+
+	@include mq-down(lg) {
+		top: 30vh;
+	}
+}
+
+.comp {
+
+	&__h2 {
+		color: $WHITE;
+		line-height: 1.5;
+		padding-bottom: 15px;
+
+		@include mq-down(lg) {
+			@include font-size(32);
+		}
+	}
+
+	&__p {
+		color: $WHITE;
+		line-height: 1.5;
+
+		@include mq-down(lg) {
+
+		}
+	}
+}

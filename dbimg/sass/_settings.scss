@@ -1,0 +1,77 @@
+@charset "utf-8";
+// ===================================================================
+// 設定
+// ===================================================================
+
+
+// HTML5の場合は値を「false」から「true」にする
+$use-html5: true;
+
+// 汎用クラスを使用するか
+$use-extend-object: true;
+
+// 画像のパス
+$image-path: '../images/';
+
+// ベースフォント
+$base-font: 'UtsukushiFONT';
+// $base-font: 'ヒラギノ丸ゴ ProN W4','Hiragino Maru Gothic ProN';
+$base-font-ie: 'ＭＳ Ｐゴシック', 'Lato', Sans-Serif;
+$button-font: 'Helvetica Neue', arial, sans-serif;
+$sub-font: 'PT Sans', sans-serif;
+
+// メインカラー（ベースカラー）
+$BLACK: #000;
+$WHITE: #fff;
+$GRAY: #595959;
+$LIGHT-GRAY: #b7b7b7;
+$DARK-GRAY: #595858;
+
+$GREEN: #009688;
+$DARK-GREEN: #00695C;
+$LIGHT-GREEN: #4DB6AC;
+$GLIGHT-GREEN: #80CBC4;
+
+$LIGHT-RED: #EF5350;
+// エラーカラー
+$RED: #d76666;
+
+$ODAI-BTN-CL1: #3498db;
+$ODAI-BTN-CL2: #2ecc71;
+$ODAI-BTN-CL3: #e74c3c;
+
+
+
+// 付与するベンダープレフィックス
+$set-prefix: -webkit-, -moz-, -ms-, -o-, '';
+
+
+// ページ全体の横幅
+// $width: 1040px;
+
+//要素の基本下マージン
+$base_margin_bottom: 15px;
+
+//基本durationの時間
+$base-duration: 500ms;
+
+/*--------------------------------------------------------
+	メディアクエリの設定
+---------------------------------------------------------*/
+// min-width
+$breakpoint-up: (
+	'sm': 'screen and (min-width: 768px)',
+	'md': 'screen and (min-width: 1024px)',
+	'lg': 'screen and (min-width: 1112px)',
+	'xl': 'screen and (min-width: 1366px)',
+	'xxl': 'screen and (min-width: 1920px)',
+) !default;
+
+// max-width
+$breakpoint-down: (
+	'sm': 'screen and (max-width: 767px)',
+	'md': 'screen and (max-width: 1023px)',
+	'lg': 'screen and (max-width: 1111px)',
+	'xl': 'screen and (max-width: 1365px)',
+	'xxl': 'screen and (min-width: 1919px)',
+) !default;

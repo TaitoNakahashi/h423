@@ -1,0 +1,140 @@
+@charset "utf-8";
+// ===================================================================
+// mixin.scss
+// ===================================================================
+
+// @mixinの定義
+
+
+//flexの設定 細かい設定は要素ごとに設定
+@mixin flex {
+	display: -webkit-flex; /* Safari */
+	display: flex;
+}
+
+
+// clearfixの設定
+@mixin clearfix {
+	*zoom: 1;
+	&:after {
+		content: ".";
+		display: block;
+		clear: both;
+		height: 0;
+		visibility: hidden;
+	}
+}
+
+.inline {
+	letter-spacing: -0.5em;
+
+	& > div {
+		display: inline-block;
+		letter-spacing: normal;
+		vertical-align: top;
+	}
+}
+
+
+// プロパティにプレフィックスを付与
+@mixin property-prefix($name, $value) {
+	@each $prefix in $set-prefix {
+		#{$prefix}#{$name}: $value;
+	}
+}
+// 値にプレフィックスを付与
+@mixin value-Prefix($name, $value) {
+	@each $prefix in $set-prefix {
+		#{$name}: #{$prefix}$value;
+	}
+}
+
+
+// ボックスの設定
+@mixin box($type: border-box) {
+	@include box-sizing(#{$type});
+}
+// ↓
+@mixin box-sizing($type) {
+	@each $prefix in $set-prefix {
+		#{$prefix}box-sizing: #{$type};
+	}
+}
+
+
+// font-sizeの設定
+@mixin font-size($size, $base: 16) {
+	font-size: $size + px;
+	font-size: ($size / $base)  + rem;
+}
+
+// $font-size-px: 10px;
+// $font-size-percent: ($font-size-px / 16px * 100) + 0%; // 16pxはブラウザの文字サイズ初期値=100%
+//
+// @mixin rem($size-px: $font-size-px) {
+//   font-size: $size-px;
+//   font-size: ($size-px / $font-size-px) * 1rem;
+// }
+
+
+
+// font-faceの設定
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: otf ttf) {
+  $src: null;
+
+  $formats: (
+    otf: 'opentype',
+    ttf: 'truetype'
+  );
+
+  @each $ext in $exts {
+    $format: map-get($formats, $ext);
+    $src: append($src, url(quote($path)) format(quote($format)), comma);
+  }
+
+  @font-face {
+    font-family: quote($name);
+    font-style:  $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+// border-radiusの設定
+@mixin border-radius($size:.25em) {
+	@each $prefix in $set-prefix {
+		#{$prefix}border-radius: ($size + px);
+	}
+}
+
+
+// map-get()の第一引数に変数名、第二引数にマップ型のキーを渡すと、マップ型の値が返ります。
+// #{}はインターポーレーションと呼ばれるもので、通常はエラーになってしまう箇所でも出力できるようになります。
+// @mixinの引数$breakpointには初期値としてmdを設定しています。
+@mixin mq-up($breakpoint: md) {
+	@media #{map-get($breakpoint-up, $breakpoint)} {
+		@content;
+	}
+}
+
+@mixin mq-down($breakpoint: md) {
+	@media #{map-get($breakpoint-down, $breakpoint)} {
+		@content;
+	}
+}
+
+
+// レスポンシブに対応したクラスを生成する@mixin
+// メディアクエリの条件#{$value}とクラス名の接尾辞#{$suffix}として書き出します。
+@mixin responsive($class, $bp: $breakpoint-up) {
+	#{$class} {
+		@content;
+	}
+	@each $suffix, $value in $bp {
+		@media #{$value} {
+			#{$class}-#{$suffix} {
+				@content;
+			}
+		}
+	}
+}

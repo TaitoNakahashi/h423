@@ -1,0 +1,41 @@
+@charset "utf-8";
+// ===================================================================
+// layout.css
+// ===================================================================
+
+
+.flex {
+	@include flex;
+}
+
+.clearfix {
+	overflow: hidden;
+	@include clearfix;
+}
+
+.float_left {
+	float: left;
+	display: block;
+}
+
+.float_right {
+	float: right;
+	display: block;
+}
+
+.left_side, .right_side {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.page {
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.main {
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+}
